@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import math
 
-from Qt import QtCore, QtGui, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
 from NodeGraphQt.constants import (
     LayoutDirectionEnum,
@@ -98,7 +98,7 @@ class PipeItem(QtWidgets.QGraphicsPathItem):
 
         painter.save()
         painter.setPen(pen)
-        painter.setRenderHint(painter.Antialiasing, True)
+        painter.setRenderHint(painter.RenderHint.Antialiasing, True)
         painter.drawPath(self.path())
 
         # draw arrow
@@ -142,50 +142,6 @@ class PipeItem(QtWidgets.QGraphicsPathItem):
 
         # QPaintDevice: Cannot destroy paint device that is being painted.
         painter.restore()
-
-    def __draw_path_vertical(self, start_port, pos1, pos2, path):
-        """
-        Draws the vertical path between ports.
-
-        Args:
-            start_port (PortItem): port used to draw the starting point.
-            pos1 (QPointF): start port position.
-            pos2 (QPointF): end port position.
-            path (QPainterPath): path to draw.
-        """
-        if self.viewer_pipe_layout() == PipeLayoutEnum.CURVED.value:
-            ctr_offset_y1, ctr_offset_y2 = pos1.y(), pos2.y()
-            tangent = abs(ctr_offset_y1 - ctr_offset_y2)
-
-            max_height = start_port.node.boundingRect().height()
-            tangent = min(tangent, max_height)
-            if start_port.port_type == PortTypeEnum.IN.value:
-                ctr_offset_y1 -= tangent
-                ctr_offset_y2 += tangent
-            else:
-                ctr_offset_y1 += tangent
-                ctr_offset_y2 -= tangent
-
-            ctr_point1 = QtCore.QPointF(pos1.x(), ctr_offset_y1)
-            ctr_point2 = QtCore.QPointF(pos2.x(), ctr_offset_y2)
-            path.cubicTo(ctr_point1, ctr_point2, pos2)
-            self.setPath(path)
-        elif self.viewer_pipe_layout() == PipeLayoutEnum.ANGLE.value:
-            ctr_offset_y1, ctr_offset_y2 = pos1.y(), pos2.y()
-            distance = abs(ctr_offset_y1 - ctr_offset_y2)/2
-            if start_port.port_type == PortTypeEnum.IN.value:
-                ctr_offset_y1 -= distance
-                ctr_offset_y2 += distance
-            else:
-                ctr_offset_y1 += distance
-                ctr_offset_y2 -= distance
-
-            ctr_point1 = QtCore.QPointF(pos1.x(), ctr_offset_y1)
-            ctr_point2 = QtCore.QPointF(pos2.x(), ctr_offset_y2)
-            path.lineTo(ctr_point1)
-            path.lineTo(ctr_point2)
-            path.lineTo(pos2)
-            self.setPath(path)
 
     def __draw_path_horizontal(self, start_port, pos1, pos2, path):
         """
@@ -264,9 +220,7 @@ class PipeItem(QtWidgets.QGraphicsPathItem):
             self.setPath(path)
             return
 
-        if self.viewer_layout_direction() is LayoutDirectionEnum.VERTICAL.value:
-            self.__draw_path_vertical(start_port, pos1, pos2, path)
-        elif self.viewer_layout_direction() is LayoutDirectionEnum.HORIZONTAL.value:
+        if self.viewer_layout_direction() is LayoutDirectionEnum.HORIZONTAL.value:
             self.__draw_path_horizontal(start_port, pos1, pos2, path)
 
     def reset_path(self):
@@ -347,7 +301,7 @@ class PipeItem(QtWidgets.QGraphicsPathItem):
         return False
 
     def itemChange(self, change, value):
-        if change == self.ItemSelectedChange and self.scene():
+        if change == self.GraphicsItemChange.ItemSelectedChange and self.scene():
             self.reset()
             if value:
                 self.highlight()
@@ -427,7 +381,7 @@ class LivePipeItem(PipeItem):
 
         painter.save()
         painter.setPen(pen)
-        painter.setRenderHint(painter.Antialiasing, True)
+        painter.setRenderHint(painter.RenderHint.Antialiasing, True)
         painter.drawPath(self.path())
 
         cen_x = self.path().pointAtPercent(0.5).x()

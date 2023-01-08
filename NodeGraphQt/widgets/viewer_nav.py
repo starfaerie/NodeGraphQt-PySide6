@@ -1,4 +1,4 @@
-from Qt import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets, QtCore, QtGui
 
 from NodeGraphQt.constants import NodeEnum, ViewerNavEnum
 
@@ -95,10 +95,10 @@ class NodeNavigationWidget(QtWidgets.QListView):
 
     def __init__(self, parent=None):
         super(NodeNavigationWidget, self).__init__(parent)
-        self.setSelectionMode(self.SingleSelection)
-        self.setResizeMode(self.Adjust)
-        self.setViewMode(self.ListMode)
-        self.setFlow(self.LeftToRight)
+        self.setSelectionMode(self.SelectionMode.SingleSelection)
+        self.setResizeMode(self.ResizeMode.Adjust)
+        self.setViewMode(self.ViewMode.ListMode)
+        self.setFlow(self.Flow.LeftToRight)
         self.setDragEnabled(False)
         self.setMinimumHeight(20)
         self.setMaximumHeight(36)

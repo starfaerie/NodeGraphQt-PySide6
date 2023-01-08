@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from Qt import QtCore, QtWidgets
+from PySide6 import QtCore, QtWidgets
 
 from NodeGraphQt.constants import ViewerEnum, Z_VAL_NODE_WIDGET
 from NodeGraphQt.errors import NodeWidgetError
@@ -19,7 +19,7 @@ class _NodeGroupBox(QtWidgets.QGroupBox):
         super(_NodeGroupBox, self).setTitle(text)
 
     def setTitleAlign(self, align='center'):
-        text_color = self.palette().text().color().getRgb()
+        text_color = (255, 255, 255)
         style_dict = {
             'QGroupBox': {
                 'background-color': 'rgba(0, 0, 0, 0)',
@@ -33,7 +33,7 @@ class _NodeGroupBox(QtWidgets.QGroupBox):
             'QGroupBox::title': {
                 'subcontrol-origin': 'margin',
                 'subcontrol-position': 'top center',
-                'color': 'rgba({0}, {1}, {2}, 100)'.format(*text_color),
+                'color': 'rgba({0}, {1}, {2}, 255)'.format(*text_color),
                 'padding': '0px',
             }
         }
@@ -324,7 +324,7 @@ class NodeLineEdit(NodeBaseWidget):
         super(NodeLineEdit, self).__init__(parent, name, label)
         plt = self.palette()
         bg_color = plt.alternateBase().color().getRgb()
-        text_color = plt.text().color().getRgb()
+        text_color = (255, 255, 255)
         text_sel_color = plt.highlightedText().color().getRgb()
         style_dict = {
             'QLineEdit': {

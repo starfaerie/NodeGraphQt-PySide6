@@ -190,13 +190,6 @@
             "file":"../examples/hotkeys/hotkey_functions.py",
             "function_name":"layout_h_mode",
             "shortcut":"Shift+1"
-          },
-          {
-            "type":"command",
-            "label":"Vertical",
-            "file":"../examples/hotkeys/hotkey_functions.py",
-            "function_name":"layout_v_mode",
-            "shortcut":"Shift+2"
           }
         ]
       }

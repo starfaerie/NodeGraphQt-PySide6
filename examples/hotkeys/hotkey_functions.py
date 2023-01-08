@@ -35,13 +35,6 @@ def layout_h_mode(graph):
     graph.set_layout_direction(0)
 
 
-def layout_v_mode(graph):
-    """
-    Set node graph layout direction to vertical.
-    """
-    graph.set_layout_direction(1)
-
-
 def open_session(graph):
     """
     Prompts a file open dialog to load a session.

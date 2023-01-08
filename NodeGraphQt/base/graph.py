@@ -5,7 +5,7 @@ import json
 import os
 import re
 
-from Qt import QtCore, QtWidgets
+from PySide6 import QtCore, QtWidgets, QtGui
 
 from NodeGraphQt.base.commands import (NodeAddedCmd,
                                        NodeRemovedCmd,
@@ -149,7 +149,7 @@ class NodeGraph(QtCore.QObject):
 
         self._undo_view = None
         self._undo_stack = (
-            kwargs.get('undo_stack') or QtWidgets.QUndoStack(self))
+            kwargs.get('undo_stack') or QtGui.QUndoStack(self))
 
         self._widget = None
 
@@ -468,7 +468,7 @@ class NodeGraph(QtCore.QObject):
             self._widget.addTab(self._viewer, 'Node Graph')
             # hide the close button on the first tab.
             tab_bar = self._widget.tabBar()
-            for btn_flag in [tab_bar.RightSide, tab_bar.LeftSide]:
+            for btn_flag in [tab_bar.ButtonPosition.RightSide, tab_bar.ButtonPosition.LeftSide]:
                 tab_btn = tab_bar.tabButton(0, btn_flag)
                 if tab_btn:
                     tab_btn.deleteLater()
@@ -1945,21 +1945,6 @@ class NodeGraph(QtCore.QObject):
                     current_y += dy * 0.5 + 10
 
                 current_x += max_width * 0.5 + 100
-        elif node_layout_direction is LayoutDirectionEnum.VERTICAL.value:
-            current_y = 0
-            node_width = 250
-            for rank in sorted(range(len(rank_map)), reverse=not down_stream):
-                ranked_nodes = rank_map[rank]
-                max_height = max([node.view.height for node in ranked_nodes])
-                current_y += max_height
-                current_x = 0
-                for idx, node in enumerate(ranked_nodes):
-                    dx = max(node_width, node.view.width)
-                    current_x += 0 if idx == 0 else dx
-                    node.set_pos(current_x, current_y)
-                    current_x += dx * 0.5 + 10
-
-                current_y += max_height * 0.5 + 100
 
         nodes_center_1 = self.viewer().nodes_rect_center(node_views)
         dx = nodes_center_0[0] - nodes_center_1[0]
@@ -2279,8 +2264,6 @@ class SubGraph(NodeGraph):
                 x, y = input_node.pos()
                 if node_layout_direction is LayoutDirectionEnum.HORIZONTAL.value:
                     x -= 100
-                elif node_layout_direction is LayoutDirectionEnum.VERTICAL.value:
-                    y -= 100
                 input_node.set_property('pos', [x, y], push_undo=False)
 
         # build the parent output port nodes.
@@ -2297,8 +2280,6 @@ class SubGraph(NodeGraph):
                 x, y = output_node.pos()
                 if node_layout_direction is LayoutDirectionEnum.HORIZONTAL.value:
                     x += 100
-                elif node_layout_direction is LayoutDirectionEnum.VERTICAL.value:
-                    y += 100
                 output_node.set_property('pos', [x, y], push_undo=False)
 
         return input_nodes, output_nodes

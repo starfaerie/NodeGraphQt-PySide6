@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-from Qt import QtWidgets
+from PySide6 import QtWidgets
 from enum import Enum
 
 from .pkg_info import __version__ as _v
@@ -60,8 +60,6 @@ class LayoutDirectionEnum(Enum):
     """
     #: layout nodes left to right.
     HORIZONTAL = 0
-    #: layout nodes top to bottom.
-    VERTICAL = 1
 
 
 # =================================== VIEWER ===================================

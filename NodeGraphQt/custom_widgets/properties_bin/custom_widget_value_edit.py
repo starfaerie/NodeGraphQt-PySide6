@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from Qt import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets, QtCore, QtGui
 
 
 class _NumberValueMenu(QtWidgets.QMenu):
@@ -49,7 +49,7 @@ class _NumberValueMenu(QtWidgets.QMenu):
             self.setActiveAction(self.last_action)
 
     def _add_step_action(self, step):
-        action = QtWidgets.QAction(str(step), self)
+        action = QtGui.QAction(str(step), self)
         action.step = step
         self.addAction(action)
 

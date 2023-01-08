@@ -1,4 +1,4 @@
-from Qt import QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui
 
 from NodeGraphQt.constants import (
     NodeEnum, ViewerEnum, ViewerNavEnum
@@ -13,7 +13,7 @@ class NodeGraphWidget(QtWidgets.QTabWidget):
         super(NodeGraphWidget, self).__init__(parent)
         self.setTabsClosable(True)
         self.setTabBarAutoHide(True)
-        text_color = self.palette().text().color().getRgb()
+        text_color = (255, 255, 255)
         bg_color = QtGui.QColor(
             *ViewerEnum.BACKGROUND_COLOR.value).darker(120).getRgb()
         style_dict = {

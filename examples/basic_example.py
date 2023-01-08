@@ -3,7 +3,7 @@
 import os
 import signal
 
-from Qt import QtCore, QtWidgets
+from PySide6 import QtCore, QtWidgets
 
 from NodeGraphQt import (
     NodeGraph,
@@ -14,15 +14,16 @@ from NodeGraphQt import (
 
 # import example nodes from the "example_nodes" package
 from nodes import basic_nodes, custom_ports_node, group_node, widget_nodes
+import qdarktheme
 
 if __name__ == '__main__':
 
     # handle SIGINT to make the app terminate on CTRL+C
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
-    QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
-
     app = QtWidgets.QApplication([])
+
+    qdarktheme.setup_theme("dark")
 
     # create graph controller.
     graph = NodeGraph()
@@ -105,7 +106,7 @@ if __name__ == '__main__':
 
     # Custom builtin widgets from NodeGraphQt
     # ---------------------------------------
-
+    """
     # create a node properties bin widget.
     properties_bin = PropertiesBinWidget(node_graph=graph)
     properties_bin.setWindowFlags(QtCore.Qt.Tool)
@@ -116,7 +117,7 @@ if __name__ == '__main__':
             properties_bin.show()
 
     # wire function to "node_double_clicked" signal.
-    graph.node_double_clicked.connect(display_properties_bin)
+    graph.node_double_clicked.connect(display_properties_bin)"""
 
     # create a nodes tree widget.
     nodes_tree = NodesTreeWidget(node_graph=graph)
@@ -136,4 +137,4 @@ if __name__ == '__main__':
     nodes_palette.set_category_label('nodes.group', 'Group Nodes')
     # nodes_palette.show()
 
-    app.exec_()
+    app.exec()
